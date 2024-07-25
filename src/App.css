@@ -85,3 +85,27 @@ p {
   max-width: 800px;
   
 }
+.headerStyle {
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.modal-content button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:first-of-type {
+  background-color: #49C3DE;
+  color: white;
+}
+
+.modal-content button:last-of-type {
+  background-color: #ccc;
+  color: black;
+}

@@ -1,39 +1,50 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './App.css'; // Asegúrate de importar el archivo CSS
 
-function ScannedPage() {
-  const headerStyle = {
-    background: '#4BBBFB',
-    padding: '20px',
-    color: 'white',
+const ScannedPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    // Simular la lectura del código QR y abrir el modal
+    setIsModalOpen(true);
+  }, []);
 
+  const handleAccept = () => {
+    // Redirigir a la página de chat con el nombre ingresado
+    navigate('/chat', { state: { name } });
+  };
+
+  const handleCancel = () => {
+    // Cerrar el modal
+    setIsModalOpen(false);
   };
 
   return (
-    
-    <div className='container'>
-      <div style={headerStyle}>
-        
-      </div>
-
-        <h3>Inicia una conversación</h3>
-            <div>
-            <img src="/imgConversation.jpg" alt="Ayuda" className="imageConv" />
-            <div>
-
-          <label htmlFor="nombre">Ingrese su nombre :</label>
-          <input type="text" id="nombre" />
-            <hr></hr>
-            <Link to="/acepR">
-                <button style={{ color: 'black', backgroundColor: '#49C3DE', border:'none', fontSize:'20px', borderRadius:'5px'}}>aceptar</button>
-            </Link>
-
+    <div className="container">
+      <img src="/imgConversation.jpg" alt="Ayuda" className="imageConv" />
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <label htmlFor="nombre">Ingrese su nombre :</label>
+            <input
+              type="text"
+              id="nombre"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <hr />
+            <div className="btnM">
+              <button onClick={handleAccept}>Aceptar</button>
+              <button onClick={handleCancel}>Cancelar</button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
-    
   );
-}
+};
 
 export default ScannedPage;
