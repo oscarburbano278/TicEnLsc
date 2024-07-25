@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
+  const socketUrl = process.env.REACT_APP_API_URL;
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
   const fetchQrCode = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/generate_qr', {
+      const response = await axios.get(socketUrl+'/generate_qr', {
         responseType: 'blob',
       });
       const qrCodeBlob = new Blob([response.data], { type: 'image/png' });

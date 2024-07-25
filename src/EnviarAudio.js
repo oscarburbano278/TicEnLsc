@@ -7,14 +7,10 @@ const EnviarAudio = () => {
   const location = useLocation();
   const { name } = location.state || { name: 'Usuario' };
   const [messages, setMessages] = useState([]);
-  const headerStyle = {
-    background: "#4BBBFB",
-    padding: "20px",
-    color: "white",
-  };
 
   useEffect(() => {
-    const socket = io("http://127.0.0.1:5000");
+    const socketUrl = process.env.REACT_APP_API_URL;
+    const socket = io(socketUrl);
     let isSender = true;
 
     socket.on("message", function (msg) {
@@ -47,7 +43,7 @@ const EnviarAudio = () => {
           const formData = new FormData();
           formData.append("audio", audioBlob);
 
-          fetch("http://127.0.0.1:5000/transcribe", {
+          fetch(socketUrl + "/transcribe", {
             method: "POST",
             body: formData,
           })
