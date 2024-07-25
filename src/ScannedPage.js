@@ -24,7 +24,7 @@ const ScannedPage = () => {
 
   return (
     <div className="container">
-      <img src="/imgConversation.jpg" alt="Ayuda" className="imageConv" />
+      <img src={`${process.env.PUBLIC_URL}/imgConversation.jpg`} alt="Ayuda" className="imageConv" />
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">

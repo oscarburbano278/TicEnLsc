@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <div>
       <header>
-        <img src="/logoLsc.png" alt="Logotipo de la App" className="logo" />
+        <img src={`${process.env.PUBLIC_URL}/logoLsc.png`} alt="Logotipo de la App" className="logo" />
         <h1>Comunícate conmigo</h1>
       </header>
 
@@ -43,7 +43,7 @@ const Home = () => {
       <footer>
         <p>"conecta personas oyentes y personas sordas con facilidad"</p>
         <div className="help-icon">
-          <img src="/signoP.png" alt="Ayuda" className="help-image" />
+          <img src={`${process.env.PUBLIC_URL}/signoP.png`}alt="Ayuda" className="help-image" />
         </div>
       </footer>
     </div>

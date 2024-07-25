@@ -85,7 +85,7 @@ const EnviarAudio = () => {
   return (
     <div id="chat-container">
       <div className="profile-container">
-        <img src="user.png" alt="imguser" className="imagUser" />
+        <img src={`${process.env.PUBLIC_URL}/user.png`} alt="imguser" className="imagUser" />
         <label className="chat-name-label">{name}</label>
       </div>
       <div id="chat" className="chat">
