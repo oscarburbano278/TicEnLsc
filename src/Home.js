@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-function Home() {
+const Home = () => {
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
+
+  const fetchQrCode = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/generate_qr', {
+        responseType: 'blob',
+      });
+      const qrCodeBlob = new Blob([response.data], { type: 'image/png' });
+      const qrCodeUrl = URL.createObjectURL(qrCodeBlob);
+      setQrCodeUrl(qrCodeUrl);
+    } catch (error) {
+      console.error('Error fetching QR code:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQrCode();
+  }, []);
+
   return (
     <div>
       <header>
@@ -12,9 +32,10 @@ function Home() {
       <main>
         <div className="qr-section">
           <Link to="/scanned">
-            <img src="/qr-code.png" alt="Código QR" className="qr-code" />
+            {qrCodeUrl && <img src={qrCodeUrl} alt="Código QR" className="qr-code" />}
           </Link>
           <p>Escanea para comenzar</p>
+          <button onClick={fetchQrCode}>Actualizar Código QR</button>
         </div>
       </main>
 
@@ -26,6 +47,6 @@ function Home() {
       </footer>
     </div>
   );
-}
+};
 
 export default Home;
