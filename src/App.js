@@ -11,13 +11,13 @@ function App() {
     <Router>
       <div className="container">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/scanned" element={<ScannedPage />} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/scanned" element={<ScannedPage/>} />
 
           
-          <Route path="/acepR" element={<AcepReceptor />} />
+          <Route path="/acepR" element={<AcepReceptor/>} />
 
-          <Route path="/enviarA" element={<EnviarAudio />} />
+          <Route path="/enviarA" element={<EnviarAudio/>} />
         </Routes>
       </div>
     </Router>

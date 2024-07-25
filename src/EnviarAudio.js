@@ -1,35 +1,114 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
+import "./App.css";
 
-
-function EnviarAudio() {
+const EnviarAudio = () => {
+  const [messages, setMessages] = useState([]);
   const headerStyle = {
-    background: ' #4BBBFB ',
-    padding: '20px',
-    color: 'white',
+    background: "#4BBBFB",
+    padding: "20px",
+    color: "white",
   };
 
+  useEffect(() => {
+    const socket = io("http://127.0.0.1:5000");
+    let isSender = true;
+
+    socket.on("message", function (msg) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: msg, sender: isSender },
+      ]);
+      isSender = !isSender; // Alternar entre emisor y receptor
+    });
+
+    let mediaRecorder;
+    let audioChunks = [];
+    const recordButton = document.getElementById("record");
+    const loadingIndicator = document.getElementById("loading");
+
+    const handleMouseDown = () => {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+          const audioBlob = new Blob(audioChunks);
+          const formData = new FormData();
+          formData.append("audio", audioBlob);
+
+          fetch("http://127.0.0.1:5000/transcribe", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data.text);
+              socket.send(data.text); // Enviar el texto transcrito al chat
+              loadingIndicator.style.display = "none";
+              recordButton.disabled = false;
+            });
+
+          audioChunks = [];
+        });
+      });
+    };
+
+    const handleMouseUp = () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        loadingIndicator.style.display = "block";
+        recordButton.disabled = true;
+      }
+    };
+
+    recordButton.addEventListener("mousedown", handleMouseDown);
+    recordButton.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      recordButton.removeEventListener("mousedown", handleMouseDown);
+      recordButton.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    const chatContainer = document.getElementById("chat");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }, [messages]);
+
   return (
-    <div className='container'>
-        <div className='headerP'>
-            <div style={headerStyle}>
-            <img src="user.png" alt="imguser" className='imagUser'/>
-            <label>usuario ######</label>
+ 
+      <div id="chat-container">
+        <div style={headerStyle}>
+          <img src="user.png" alt="imguser" className="imagUser" />
+          <label>usuario ######</label>
         </div>
-    
-      </div>        
-          <div>
-            <img src="microfono.png" alt="Microf" className='imagMicrof'/>
-          <div>
-
-          <p>Envia tu mensaje</p> 
-
-          <div className='chat'>          
-          
+        <div id="chat-header">Speech to Text Chat</div>
+        <div id="chat" className="chat">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.sender ? "sender" : "receiver"}`}
+            >
+              {msg.text}
+            </div>
+          ))}
+        </div>
+        <div id="record-container">
+          <button id="record">
+            <i className="fas fa-microphone"></i>
+          </button>
+          <div id="loading" style={{ display: "none" }}>
+            Loading...
           </div>
         </div>
       </div>
-    </div>
+   
   );
-}
+};
 
 export default EnviarAudio;
