@@ -1,28 +1,23 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
+import Home from './Home';
+import ScannedPage from './ScannedPage';
+import AcepReceptor from './AcepReceptor';
 
 function App() {
   return (
-    <div className="container">
-      <header>
-        <img src="/logoLsc.png" alt="Logotipo de la App" className="logo" />
-        <h1>Comunícate conmigo</h1>
-      </header>
+    <Router>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/scanned" element={<ScannedPage />} />
 
-      <main>
-        <div className="qr-section">
-          <img src="/qrEnsayo.png" alt="Código QR" className="qr-code" />
-          <p>Escanea para comenzar</p>
-        </div>
-      </main>
-
-      <footer>
-        <p>"conecta personas oyentes y personas sordas con facilidad"</p>
-        <div className="help-icon">
-        <img src="/signoP.png" alt="ayuda" className="help-image" />
-        </div>
-      </footer>
-    </div>
+          
+          <Route path="/acepR" element={<AcepReceptor />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

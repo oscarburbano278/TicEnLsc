@@ -57,3 +57,14 @@ p {
   height: 50px;
   border-radius: 50%;
 }
+
+.imageConv{
+  width: 100px;
+  height: 100px;
+  border-radius: 10%;
+}
+
+.btnM{
+  display: flex;
+  justify-content:space-around;
+}
