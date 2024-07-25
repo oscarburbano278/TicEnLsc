@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function AcepReceptor() {
   const headerStyle = {
@@ -19,7 +20,9 @@ function AcepReceptor() {
           <p>Deseas iniciar una comunicación con ##### !!!</p> 
 
           <div className='btnM'>
-          <button style={{ color: 'black', backgroundColor: '#fa8064', border:'none', fontSize:'20px', borderRadius:'5px'}}>aceptar</button>
+          <Link to="/enviarA"> 
+            <button style={{ color: 'black', backgroundColor: '#fa8064', border:'none', fontSize:'20px', borderRadius:'5px'}}>aceptar</button>
+          </Link>
           
           <button style={{ color: 'black', backgroundColor: '#49C3DE' , border:'none', fontSize:'20px', borderRadius:'5px'}}>cancelar</button>
           </div>

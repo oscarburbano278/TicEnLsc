@@ -4,6 +4,7 @@ import './App.css';
 import Home from './Home';
 import ScannedPage from './ScannedPage';
 import AcepReceptor from './AcepReceptor';
+import EnviarAudio from './EnviarAudio';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
 
           
           <Route path="/acepR" element={<AcepReceptor />} />
+
+          <Route path="/enviarA" element={<EnviarAudio />} />
         </Routes>
       </div>
     </Router>

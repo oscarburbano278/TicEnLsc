@@ -52,7 +52,7 @@ p {
   margin-top: 20px;
 }
 
-.help-image {
+.help-image{
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -67,4 +67,21 @@ p {
 .btnM{
   display: flex;
   justify-content:space-around;
+}
+
+.imagMicrof{
+  width: 200px;
+  height: 90px;
+  border-radius: 50%;
+}
+.imagUser{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+}
+
+.containerP{
+  max-width: 800px;
+  
 }
