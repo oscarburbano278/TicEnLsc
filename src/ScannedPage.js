@@ -14,7 +14,7 @@ const ScannedPage = () => {
 
   const handleAccept = () => {
     // Redirigir a la página de chat con el nombre ingresado
-    navigate('/chat', { state: { name } });
+    navigate('/enviarA', { state: { name } });
   };
 
   const handleCancel = () => {

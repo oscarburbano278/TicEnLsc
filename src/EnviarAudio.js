@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
+import { useLocation } from 'react-router-dom';
 import "./App.css";
 
 const EnviarAudio = () => {
+  const location = useLocation();
+  const { name } = location.state || { name: 'Usuario' };
   const [messages, setMessages] = useState([]);
   const headerStyle = {
     background: "#4BBBFB",
@@ -15,10 +18,13 @@ const EnviarAudio = () => {
     let isSender = true;
 
     socket.on("message", function (msg) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: msg, sender: isSender },
-      ]);
+      setMessages((prevMessages) => {
+        // Verificar si el mensaje ya existe para evitar duplicados
+        if (prevMessages.some(message => message.text === msg)) {
+          return prevMessages;
+        }
+        return [...prevMessages, { text: msg, sender: isSender }];
+      });
       isSender = !isSender; // Alternar entre emisor y receptor
     });
 
@@ -81,33 +87,30 @@ const EnviarAudio = () => {
   }, [messages]);
 
   return (
- 
-      <div id="chat-container">
-        <div style={headerStyle}>
-          <img src="user.png" alt="imguser" className="imagUser" />
-          <label>usuario ######</label>
-        </div>
-        <div id="chat-header">Speech to Text Chat</div>
-        <div id="chat" className="chat">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`message ${msg.sender ? "sender" : "receiver"}`}
-            >
-              {msg.text}
-            </div>
-          ))}
-        </div>
-        <div id="record-container">
-          <button id="record">
-            <i className="fas fa-microphone"></i>
-          </button>
-          <div id="loading" style={{ display: "none" }}>
-            Loading...
+    <div id="chat-container">
+      <div className="profile-container">
+        <img src="user.png" alt="imguser" className="imagUser" />
+        <label className="chat-name-label">{name}</label>
+      </div>
+      <div id="chat" className="chat">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`message ${msg.sender ? "sender" : "receiver"}`}
+          >
+            {msg.text}
           </div>
+        ))}
+      </div>
+      <div id="record-container">
+        <button id="record">
+          <i className="fas fa-microphone"></i>
+        </button>
+        <div id="loading" style={{ display: "none" }}>
+          Loading...
         </div>
       </div>
-   
+    </div>
   );
 };
 
