@@ -17,6 +17,7 @@ function App() {
           <Route path="/acepR" element={<AcepReceptor />} />
           <Route path="/enviarA" element={<EnviarAudio />} />
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </div>
     </Router>
